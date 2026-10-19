@@ -28,6 +28,7 @@ public class Pedido extends Base implements Calculable {
 
     private double total;
 
+    @Enumerated(EnumType.STRING)
     private FormaPago formaPago;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -42,6 +43,7 @@ public class Pedido extends Base implements Calculable {
         this.estado = Estado.PENDIENTE;
         this.total = 0.0;
         this.formaPago = formaPago;
+        this.detallesPedidos = new HashSet<>();
     }
 
 
@@ -68,7 +70,7 @@ public class Pedido extends Base implements Calculable {
     }
 
     public DetallePedido findDetallePedidoByProducto(Producto producto){
-        if(producto == null){
+        if(producto == null || this.detallesPedidos == null){
             return null;
         }
 
